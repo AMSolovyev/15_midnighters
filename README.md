@@ -1,8 +1,8 @@
-#Seek midnigthers
+# Seek midnigthers
 
 The program ```seek_dev_nighters.py``` looks for people to put the script during night
 
-#How to use
+# How to use
 ```
 virtualenv -p python3 env
 source env/bin/activate
@@ -28,7 +28,7 @@ timurgosu
  oeananas
 ```
 
-#Project Goals
+# Project Goals
 
 The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
 
