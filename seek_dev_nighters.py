@@ -4,11 +4,12 @@ from datetime import datetime, time
 import json
 
 
-def load_attempts(pages=10):
+def load_attempts():
     url = 'http://devman.org/api/challenges/solution_attempts'
+    params = {'page': 0}
     try:
-        for page in range(1, pages + 1):
-            params = {'page': page}
+        while True:
+            params['page'] += 1
             devman_data = requests.get(
                 url, params=params).json()
             for record in devman_data['records']:
@@ -18,23 +19,22 @@ def load_attempts(pages=10):
         return None
 
 
-def get_midnighters(record):
+def is_midnighters(attempt):
     start_time = 0
     finish_time = 6
     time_midnighters = 0
-    if record['timestamp']:
+    if attempt['timestamp']:
         local_time = datetime.fromtimestamp(
-            record['timestamp'],
-            timezone(record['timezone'])
+            attempt['timestamp'],
+            timezone(attempt['timezone'])
         )
-        time_midnighters = local_time.time()
-    if start_time < time_midnighters.hour < finish_time:
-        return True
+        time_midnighters = local_time
+    return start_time < time_midnighters.hour < finish_time
 
 
 if __name__ == '__main__':
     midnighters = set()
     for record in load_attempts():
-        if get_midnighters(record):
+        if is_midnighters(record):
             midnighters.add(record['username'])
-            print('\n '.join(midnighters))
+    print('\n '.join(midnighters))
