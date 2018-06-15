@@ -14,27 +14,29 @@ def load_attempts():
                 url, params=params).json()
             for record in devman_data['records']:
                 yield record
+            total_pages = devman_data['number_of_pages']
+            if params == total_pages:
+                break
 
     except json.decoder.JSONDecodeError:
         return None
 
 
-def is_midnighters(attempt):
+def is_midnighter(attempt):
     start_time = 0
     finish_time = 6
     time_midnighters = 0
     if attempt['timestamp']:
-        local_time = datetime.fromtimestamp(
+        time_midnighters = datetime.fromtimestamp(
             attempt['timestamp'],
             timezone(attempt['timezone'])
         )
-        time_midnighters = local_time
     return start_time < time_midnighters.hour < finish_time
 
 
 if __name__ == '__main__':
     midnighters = set()
     for record in load_attempts():
-        if is_midnighters(record):
+        if is_midnighter(record):
             midnighters.add(record['username'])
     print('\n '.join(midnighters))

@@ -12,20 +12,9 @@ python3 seek_dev_nighters.py
 
 You can get data like this:
 ```
+timurgosu
+oeananas
 id311542249
-timurgosu
- id311542249
-timurgosu
- id311542249
-timurgosu
- id311542249
- oeananas
-timurgosu
- id311542249
- oeananas
-timurgosu
- id311542249
- oeananas
 ```
 
 # Project Goals
