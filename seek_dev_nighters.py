@@ -6,16 +6,16 @@ import json
 
 def load_attempts():
     url = 'http://devman.org/api/challenges/solution_attempts'
-    params = {'page': 0}
+    page = 1
     try:
         while True:
-            params['page'] += 1
+            page += 1
             devman_data = requests.get(
-                url, params=params).json()
+                url, params={'page': page}).json()
             for record in devman_data['records']:
                 yield record
             total_pages = devman_data['number_of_pages']
-            if params == total_pages:
+            if page == total_pages:
                 break
 
     except json.decoder.JSONDecodeError:
@@ -25,13 +25,13 @@ def load_attempts():
 def is_midnighter(attempt):
     start_time = 0
     finish_time = 6
-    time_midnighters = 0
+    midnighter_time = 0
     if attempt['timestamp']:
-        time_midnighters = datetime.fromtimestamp(
+        midnighter_time = datetime.fromtimestamp(
             attempt['timestamp'],
             timezone(attempt['timezone'])
         )
-    return start_time < time_midnighters.hour < finish_time
+    return start_time < midnighter_time.hour < finish_time
 
 
 if __name__ == '__main__':
